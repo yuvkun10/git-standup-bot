@@ -1,0 +1,41 @@
+{
+  "name": "git-standup-bot",
+  "version": "0.1.0",
+  "description": "Production-grade TypeScript CLI for turning git activity into standup summaries.",
+  "type": "module",
+  "bin": {
+    "git-standup-bot": "./dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    ".env.example"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "start": "node dist/bin.js"
+  },
+  "keywords": [
+    "git",
+    "standup",
+    "cli",
+    "typescript",
+    "openai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@types/node": "^22.15.21",
+    "eslint": "^9.27.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1",
+    "vitest": "^3.1.4"
+  }
+}
