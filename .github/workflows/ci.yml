@@ -22,6 +22,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+
+      - name: Check outdated dependencies
+        run: npm outdated
+
       - name: Test
         run: npm test
 

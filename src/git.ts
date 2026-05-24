@@ -73,7 +73,7 @@ export async function execGit(
       stderr: result.stderr
     };
   } catch (error) {
-    throw new Error(formatGitError(error));
+    throw new Error(formatGitError(error), { cause: error });
   }
 }
 
