@@ -113,20 +113,20 @@ OPENAI_BASE_URL=https://api.openai.com/v1
 
 Use `.env.example` as the safe tracked template. Keep real keys in `.env`, `.env.local`, your shell, or your secret manager. The repo ignores `.env` and `.env.*` while explicitly keeping `.env.example` tracked.
 
-## Codebase Structure
+## Repository map
 
-| Path | Purpose |
-| --- | --- |
-| `src/bin.ts` | Node executable entrypoint. |
-| `src/cli.ts` | Argument parsing, command orchestration, help text, and process result shaping. |
-| `src/git.ts` | `git log` argument construction, command execution, and commit parsing. |
-| `src/summary.ts` | Standup totals, highlights, changed-file counts, branches, and blocker inference. |
-| `src/renderers.ts` | Markdown and JSON renderers. |
-| `src/narrative.ts` | Optional OpenAI narrative generation and deterministic fallback. |
-| `src/types.ts` | Shared TypeScript interfaces. |
-| `test/` | Vitest coverage for CLI parsing, git parsing, summaries, renderers, and narrative behavior. |
-| `.github/workflows/ci.yml` | CI for install, audit, outdated checks, tests, lint, typecheck, and build. |
-| `.github/dependabot.yml` | Weekly npm and GitHub Actions dependency update checks. |
+```text
+src/bin.ts                Node executable entrypoint
+src/cli.ts                Argument parsing, command orchestration, help text, and process result shaping
+src/git.ts                `git log` argument construction, command execution, and commit parsing
+src/summary.ts            Standup totals, highlights, changed-file counts, branches, and blocker inference
+src/renderers.ts          Markdown and JSON renderers
+src/narrative.ts          Optional OpenAI narrative generation and deterministic fallback
+src/types.ts              Shared TypeScript interfaces
+test/                     Vitest coverage for CLI parsing, git parsing, summaries, renderers, and narrative behavior
+.github/workflows/ci.yml  CI for install, audit, outdated checks, tests, lint, typecheck, and build
+.github/dependabot.yml    Weekly npm and GitHub Actions dependency update checks
+```
 
 ## Privacy And Security
 
@@ -136,3 +136,7 @@ Use `.env.example` as the safe tracked template. Keep real keys in `.env`, `.env
 - Use `--no-openai` when summaries must stay fully local.
 - Do not commit real `.env` files, API keys, private handoff notes, or generated local workflow files.
 - Review commit messages before sharing summaries if they may contain customer names, credentials, incident details, or private business context.
+
+## Documentation
+
+- [Architecture diagram source](docs/architecture.mmd)

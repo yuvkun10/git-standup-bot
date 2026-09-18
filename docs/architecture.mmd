@@ -1,0 +1,13 @@
+flowchart TD
+    A[Run CLI with date, author, branch, and file filters] --> B[Build git log command]
+    B --> C[Read local commits and changed files]
+    C --> D[Parse commit metadata and file paths]
+    D --> E[Apply author, branch, path, and window filters]
+    E --> F[Create standup summary]
+    F --> G{Narrative requested?}
+    G -- No --> H[Render Markdown or JSON]
+    G -- Yes --> I{OpenAI key configured?}
+    I -- No --> J[Use deterministic local narrative]
+    I -- Yes --> K[Request concise narrative]
+    J --> H
+    K --> H
