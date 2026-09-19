@@ -21,6 +21,8 @@ git-standup-bot [options]
 | `--help` | Show help. |
 | `--version` | Show package version. |
 
+`--branch` and `--file` values that start with `-` are rejected so git never reads them as options.
+
 ## Examples
 
 ```bash

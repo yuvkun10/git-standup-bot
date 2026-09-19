@@ -22,8 +22,12 @@ export type GitRunner = (
 ) => Promise<GitCommandResult>;
 
 export function buildGitLogArgs(query: ActivityQuery): string[] {
-  const branches = cleanList(query.branches);
-  const files = cleanList(query.files);
+  const branches = cleanList(query.branches).map((value) =>
+    rejectOptionLike(value, "branch")
+  );
+  const files = cleanList(query.files).map((value) =>
+    rejectOptionLike(value, "file")
+  );
   const args = [
     "log",
     "--date=iso-strict",
@@ -129,6 +133,15 @@ function parseCommitChunk(chunk: string): GitCommit {
 
 function cleanList(values: string[] | undefined): string[] {
   return (values ?? []).map((value) => value.trim()).filter(Boolean);
+}
+
+// A value starting with "-" would be read by git as an option such as --output.
+function rejectOptionLike(value: string, label: string): string {
+  if (value.startsWith("-")) {
+    throw new Error(`Invalid ${label} "${value}": values cannot start with "-".`);
+  }
+
+  return value;
 }
 
 function formatGitError(error: unknown): string {

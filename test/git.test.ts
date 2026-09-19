@@ -42,6 +42,31 @@ describe("git activity reader", () => {
     ]);
   });
 
+  it("rejects branches and files that git would read as options", () => {
+    expect(() =>
+      buildGitLogArgs({ branches: ["--output=/tmp/pwned"] })
+    ).toThrow('Invalid branch "--output=/tmp/pwned"');
+    expect(() =>
+      buildGitLogArgs({ branches: ["main", " -p"] })
+    ).toThrow('Invalid branch "-p"');
+    expect(() =>
+      buildGitLogArgs({ files: ["--upload-pack=touch /tmp/pwned"] })
+    ).toThrow('Invalid file "--upload-pack=touch /tmp/pwned"');
+  });
+
+  it("does not run git when a branch looks like an option", async () => {
+    const runnerCalls: string[][] = [];
+    const runner: GitRunner = (args) => {
+      runnerCalls.push(args);
+      return Promise.resolve({ stdout: "", stderr: "" });
+    };
+
+    await expect(
+      readGitActivity({ cwd: "/repo", branches: ["--output=/tmp/pwned"] }, runner)
+    ).rejects.toThrow("values cannot start with");
+    expect(runnerCalls).toHaveLength(0);
+  });
+
   it("parses commits with bodies, refs, and changed files", () => {
     const raw = [
       "\x1eabc123\x1fAda Lovelace\x1fada@example.com\x1f2026-05-23T08:00:00+10:00\x1fHEAD -> main\x1fAdd receipt import\x1fblocked by API approval\x1f",
