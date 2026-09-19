@@ -66,6 +66,43 @@ describe("narrative generation", () => {
     });
   });
 
+  it("trims trailing slashes from a custom base URL", async () => {
+    const urls: string[] = [];
+    const fetchImpl: typeof fetch = (url) => {
+      urls.push(requestUrl(url));
+      return Promise.resolve(
+        new Response(JSON.stringify({ output_text: "ok" }), { status: 200 })
+      );
+    };
+
+    for (const baseUrl of ["https://llm.example/v1///", "https://llm.example/v1", "///"]) {
+      await createNarrative(summary, { apiKey: "test-key", baseUrl, fetchImpl });
+    }
+
+    expect(urls).toEqual([
+      "https://llm.example/v1/responses",
+      "https://llm.example/v1/responses",
+      "/responses"
+    ]);
+  });
+
+  it("handles a base URL with many slashes quickly", async () => {
+    const urls: string[] = [];
+    const fetchImpl: typeof fetch = (url) => {
+      urls.push(requestUrl(url));
+      return Promise.resolve(
+        new Response(JSON.stringify({ output_text: "ok" }), { status: 200 })
+      );
+    };
+    const baseUrl = `${"/".repeat(100_000)}x`;
+
+    const started = performance.now();
+    await createNarrative(summary, { apiKey: "test-key", baseUrl, fetchImpl });
+
+    expect(performance.now() - started).toBeLessThan(1000);
+    expect(urls[0]).toBe(`${baseUrl}/responses`);
+  });
+
   it("falls back deterministically when OpenAI request fails", async () => {
     const fetchImpl: typeof fetch = () =>
       Promise.resolve(
