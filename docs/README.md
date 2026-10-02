@@ -5,4 +5,4 @@
 - [cli-reference.md](cli-reference.md): every CLI option with examples.
 - [configuration.md](configuration.md): optional environment variables for narrative mode.
 - [security.md](security.md): privacy and security notes.
-- [archive/](archive/): earlier README versions, kept verbatim. Currently [README-2026-09-19.md](archive/README-2026-09-19.md).
+- [archive/](archive/): earlier README versions, kept verbatim. Currently [README-2026-09-19.md](https://github.com/yuvkun10/git-standup-bot/blob/a33c5d895a7ab2ed1eb60b6039f95ab224c46197/docs/archive/README-2026-09-19.md).
